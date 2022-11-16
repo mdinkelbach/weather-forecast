@@ -1,5 +1,6 @@
 let searchButtonEl = document.querySelector('#search');
 let cityInputEl = document.querySelector('#city');
+let weatherCardsEl = document.getElementById('weather-cards');
 
 let formSubmitHandler = function (event) {
     event.preventDefault();
@@ -15,7 +16,7 @@ let formSubmitHandler = function (event) {
   };
 
 let getCityCoord = function (city) {
-    let latLon = 'http://api.openweathermap.org/geo/1.0/direct?q=$' + city + '&limit=1&appid=1f2462a97ced70684760194121560ac7';
+    let latLon = `http://api.openweathermap.org/geo/1.0/direct?q=$'${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
 
   fetch(latLon)
     .then(function (response) {
@@ -42,14 +43,30 @@ let getCityWeather = function (lat,lon) {
       }
     })
     .then(function (apiUrl) {
-        console.log(apiUrl);
-        console.log(`City Name: ${apiUrl.city.name}`);
-        console.log(`Date: ${apiUrl.list[0].dt_txt}`);
-        console.log(`Weather: ${apiUrl.list[0].weather[0].icon}`)
-        console.log(`F Temp: ${Math.round(fConvert(apiUrl.list[0].main.temp))}`);
-        console.log(`C Temp: ${Math.round(cConvert(apiUrl.list[0].main.temp))}`);
-        console.log(`Wind Speed: ${apiUrl.list[0].wind.speed}`);
-        console.log(`Humidity: ${apiUrl.list[0].main.humidity}`);
+        for (let i = 0; i < 5; i++) {
+            let createWeatherCard = document.createElement('div');
+            let createDate = document.createElement('h4');
+            let createIcon = document.createElement('img')
+            let createFTemp = document.createElement('p')
+            let createCTemp = document.createElement('p')
+            let createWind = document.createElement('p')
+            let createHumid = document.createElement('p')
+
+            createDate.textContent = `Date: ${apiUrl.list[i*8].dt_txt}`
+            createIcon.textContent = `Weather: ${apiUrl.list[i*8].weather[0].icon}`
+            createFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*8].main.temp))} ℉`
+            createCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*8].main.temp))} ℃`
+            createWind.textContent = `Wind Speed: ${apiUrl.list[i*8].wind.speed} MPH`
+            createHumid.textContent = `Humidity: ${apiUrl.list[i*8].main.humidity} %`
+
+            weatherCardsEl.appendChild(createWeatherCard);
+            createWeatherCard.appendChild(createDate);
+            createWeatherCard.appendChild(createIcon);
+            createWeatherCard.appendChild(createFTemp);
+            createWeatherCard.appendChild(createCTemp);
+            createWeatherCard.appendChild(createWind);
+            createWeatherCard.appendChild(createHumid);
+    }
     })
 
 }
@@ -65,3 +82,13 @@ let cConvert = function (kelvin) {
 }
 
 searchButtonEl.addEventListener('click', formSubmitHandler);
+
+
+        /*link.textContent = data[i].html_url;
+        link.href = data[i].html_url;
+
+        // Appending the link to the tabledata and then appending the tabledata to the tablerow
+        // The tablerow then gets appended to the tablebody
+        tableData.appendChild(link);
+        createTableRow.appendChild(tableData);
+        tableBody.appendChild(createTableRow);*/
