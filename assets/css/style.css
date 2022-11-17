@@ -104,6 +104,9 @@
   
   .card-body {
     padding: 2.5%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
   }
   
   .form-input {
