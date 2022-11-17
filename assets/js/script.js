@@ -1,7 +1,7 @@
 let searchButtonEl = document.querySelector('#search');
 let cityInputEl = document.querySelector('#city');
 let weatherCardsEl = document.getElementById('weather-cards');
-let cityHistoryEl = document.getElementById('city-history');
+let cityHistoryEl = $('#city-history');
 let cityNameEl = document.getElementById('city-name');
 
 let createCityButton = document.createElement('button');
@@ -12,9 +12,9 @@ let weatherClear = false
 let cityNameSave = localStorage.getItem(`city${citySave}`);
 let today = dayjs();
 
-/*for (let i = 0; i < citySave; i++) {
+/*for (let i = 0; i < 10; i++) {
   createCityButton.textContent = localStorage.getItem(`city${i}`);
-  createCityButton.appendChild(cityHistoryEl);
+  cityHistoryEl.appendChild(createCityButton);
 }*/
 
 let formSubmitHandler = function (event) {
@@ -27,11 +27,30 @@ let formSubmitHandler = function (event) {
       getCityCoord(cityname);
       citySave++
       localStorage.setItem(`city${citySave}`, cityname)
+      //createCityButton.textContent = localStorage.getItem(`city${citySave}`);
+      //cityHistoryEl.appendChild(createCityButton);
+      cityHistoryEl.append('<button>' + localStorage.getItem(`city${citySave}`) + '</button>');
+      //cityHistoryEl.children[citySave].setAttribute("class", "btn");
       cityInputEl.value = '';
     } else {
       alert('Please enter a valid city name');
     }
   };
+
+  /*function handleFormSubmit(event) {
+    event.preventDefault();
+  
+    var shoppingItem = $('input[name="shopping-input"]').val();
+  
+    if (!shoppingItem) {
+      console.log('No shopping item filled out in form!');
+      return;
+    }
+  
+    cityHistoryEl.append('<button>' + shoppingItem + '</button>');
+  
+    $('input[name="shopping-input"]').val('');
+  }*/
 
 let getCityCoord = function (city) {
     let latLon = `http://api.openweathermap.org/geo/1.0/direct?q=$'${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
