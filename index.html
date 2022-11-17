@@ -16,19 +16,19 @@
   <title>Weather</title>
 </head>
 
-<body class="flex-column min-100-vh">
-  <header class="hero flex-row justify-center">
+<body>
+  <header class="hero">
     <h1 class="app-title">
       Weather Dashboard
     </h1>
   </header>
 
 
-  <main class="flex-row justify-space-between">
+  <main>
     <div class="col-12 col-md-4">
 
       <div class="card">
-        <h3 class="card-header text-uppercase">Search for a City:</h3>
+        <h3 class="card-header">Search for a City:</h3>
         <form id="user-form" class="card-body">
           <input id="city" class="form-input"/>
           <button id="search" class="btn">Search</button>
@@ -45,7 +45,7 @@
 
     <div class="card">
       <h2 class="subtitle"><span id="city-name"></span></h2>
-      <div id="weather-cards" class="list-group flex-row">
+      <div id="weather-cards">
       </div>
     </div>
   </main>
