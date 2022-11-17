@@ -1,14 +1,21 @@
 let searchButtonEl = document.querySelector('#search');
 let cityInputEl = document.querySelector('#city');
 let weatherCardsEl = document.getElementById('weather-cards');
+let cityHistoryEl = document.getElementById('city-history');
+let cityNameEl = document.getElementById('city-name');
+
+let citySave = 0
+let weatherClear = false
 
 let formSubmitHandler = function (event) {
     event.preventDefault();
   
-    var cityname = cityInputEl.value.trim();
+    let cityname = cityInputEl.value.trim();
   
     if (cityname) {
       getCityCoord(cityname);
+      citySave++
+      localStorage.setItem(`city${citySave}`, cityname)
       cityInputEl.value = '';
     } else {
       alert('Please enter a valid city name');
@@ -42,15 +49,28 @@ let getCityWeather = function (lat,lon) {
         alert('Error: ' + response.statusText);
       }
     })
+    
     .then(function (apiUrl) {
+            
+        if (weatherClear === true) {
+            cityNameEl.textContent = '';
+            weatherCardsEl.children[4].remove();
+            weatherCardsEl.children[3].remove();
+            weatherCardsEl.children[2].remove();
+            weatherCardsEl.children[1].remove();
+            weatherCardsEl.children[0].remove();
+            }
+
+            cityNameEl.textContent = apiUrl.city.name
+        
         for (let i = 0; i < 5; i++) {
             let createWeatherCard = document.createElement('div');
             let createDate = document.createElement('h4');
-            let createIcon = document.createElement('img')
-            let createFTemp = document.createElement('p')
-            let createCTemp = document.createElement('p')
-            let createWind = document.createElement('p')
-            let createHumid = document.createElement('p')
+            let createIcon = document.createElement('img');
+            let createFTemp = document.createElement('p');
+            let createCTemp = document.createElement('p');
+            let createWind = document.createElement('p');
+            let createHumid = document.createElement('p');
 
             createDate.textContent = `Date: ${apiUrl.list[i*8].dt_txt}`
             createIcon.textContent = `Weather: ${apiUrl.list[i*8].weather[0].icon}`
@@ -67,6 +87,7 @@ let getCityWeather = function (lat,lon) {
             createWeatherCard.appendChild(createWind);
             createWeatherCard.appendChild(createHumid);
     }
+    weatherClear = true
     })
 
 }
@@ -82,13 +103,3 @@ let cConvert = function (kelvin) {
 }
 
 searchButtonEl.addEventListener('click', formSubmitHandler);
-
-
-        /*link.textContent = data[i].html_url;
-        link.href = data[i].html_url;
-
-        // Appending the link to the tabledata and then appending the tabledata to the tablerow
-        // The tablerow then gets appended to the tablebody
-        tableData.appendChild(link);
-        createTableRow.appendChild(tableData);
-        tableBody.appendChild(createTableRow);*/
