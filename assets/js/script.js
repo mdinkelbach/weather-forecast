@@ -3,6 +3,7 @@ let cityInputEl = document.querySelector('#city');
 let weatherCardsEl = document.getElementById('weather-cards');
 let cityHistoryEl = $('#city-history');
 let cityNameEl = document.getElementById('city-name');
+let historyEl = document.querySelector('.history');
 
 let createCityButton = document.createElement('button');
 let weatherClear = false
@@ -14,7 +15,7 @@ if (!citySave) {
 } else {
   for (let i = 1; i < 11; i++) {
     if (localStorage.getItem(`city${i}`) === null) break; {
-      cityHistoryEl.append(`<button class="btn data-${localStorage.getItem(`city${i}`)}">${localStorage.getItem(`city${i}`)}</button>`);
+      cityHistoryEl.append(`<button class="btn" data-name="${localStorage.getItem(`city${i}`)}">${localStorage.getItem(`city${i}`)}</button>`);
     }
   }
 }
@@ -34,12 +35,23 @@ let formSubmitHandler = function (event) {
       citySave++
       localStorage.setItem(`citySaveNumber`, citySave)
       localStorage.setItem(`city${citySave}`, cityname)
-      cityHistoryEl.append(`<button class="btn data-${localStorage.getItem(`city${citySave}`)}">${localStorage.getItem(`city${citySave}`)}</button>`);
+      cityHistoryEl.append(`<button class="btn" data-name="${localStorage.getItem(`city${citySave}`)}">${localStorage.getItem(`city${citySave}`)}</button>`);
       cityInputEl.value = '';
     } else {
       alert('Please enter a valid city name');
     }
   };
+
+historyEl.addEventListener("click", function(event) {
+  let element = event.target;
+
+  if (element.matches("button")) {
+     
+    let name = element.getAttribute("data-name");
+    getCityCoord(name);
+  }
+}
+);
 
 let getCityCoord = function (city) {
     let latLon = `http://api.openweathermap.org/geo/1.0/direct?q=$'${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
