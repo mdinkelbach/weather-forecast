@@ -4,8 +4,18 @@ let weatherCardsEl = document.getElementById('weather-cards');
 let cityHistoryEl = document.getElementById('city-history');
 let cityNameEl = document.getElementById('city-name');
 
+let createCityButton = document.createElement('button');
+
 let citySave = 0
 let weatherClear = false
+
+let cityNameSave = localStorage.getItem(`city${citySave}`);
+let today = dayjs();
+
+/*for (let i = 0; i < citySave; i++) {
+  createCityButton.textContent = localStorage.getItem(`city${i}`);
+  createCityButton.appendChild(cityHistoryEl);
+}*/
 
 let formSubmitHandler = function (event) {
     event.preventDefault();
@@ -13,6 +23,7 @@ let formSubmitHandler = function (event) {
     let cityname = cityInputEl.value.trim();
   
     if (cityname) {
+      cityname = cityname[0].toUpperCase() + cityname.substring(1);
       getCityCoord(cityname);
       citySave++
       localStorage.setItem(`city${citySave}`, cityname)
@@ -72,7 +83,7 @@ let getCityWeather = function (lat,lon) {
             let createWind = document.createElement('p');
             let createHumid = document.createElement('p');
 
-            createDate.textContent = `Date: ${apiUrl.list[i*8].dt_txt}`
+            createDate.textContent = `Date: ${today.add(i, 'day').format('M/D/YYYY')}`
             createIcon.textContent = `Weather: ${apiUrl.list[i*8].weather[0].icon}`
             createFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*8].main.temp))} ℉`
             createCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*8].main.temp))} ℃`
@@ -86,7 +97,15 @@ let getCityWeather = function (lat,lon) {
             createWeatherCard.appendChild(createCTemp);
             createWeatherCard.appendChild(createWind);
             createWeatherCard.appendChild(createHumid);
-    }
+
+          }
+
+    weatherCardsEl.children[4].setAttribute("class", "weather-card");
+    weatherCardsEl.children[3].setAttribute("class", "weather-card");
+    weatherCardsEl.children[2].setAttribute("class", "weather-card");
+    weatherCardsEl.children[1].setAttribute("class", "weather-card");
+    weatherCardsEl.children[0].setAttribute("class", "weather-card");
+    
     weatherClear = true
     })
 
