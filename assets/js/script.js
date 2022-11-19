@@ -1,3 +1,4 @@
+// HTML element declaration
 let searchButtonEl = document.querySelector('#search');
 let cityInputEl = document.querySelector('#city');
 let weatherCardsEl = document.getElementById('weather-cards');
@@ -9,8 +10,10 @@ let historyEl = document.querySelector('.history');
 let createCityButton = document.createElement('button');
 let weatherClear = false
 
+// Setting page for any possible previous searches
 let citySave = localStorage.getItem(`citySaveNumber`)
 
+// Setting search history, if it exists
 if (!citySave) {
   localStorage.setItem(`citySaveNumber`, 0)
 } else {
@@ -24,7 +27,7 @@ if (!citySave) {
 let cityNameSave = localStorage.getItem(`city${citySave}`);
 let today = dayjs();
 
-
+// Allows for the search of a city, saving it to the history in the process
 let formSubmitHandler = function (event) {
     event.preventDefault();
   
@@ -43,6 +46,7 @@ let formSubmitHandler = function (event) {
     }
   };
 
+// Setting previous searches data attributes
 historyEl.addEventListener("click", function(event) {
   let element = event.target;
 
@@ -54,6 +58,7 @@ historyEl.addEventListener("click", function(event) {
 }
 );
 
+// Using secondary API to turn searched city into Lat and Lon coordinates for primary API
 let getCityCoord = function (city) {
     let latLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
 
@@ -70,6 +75,7 @@ let getCityCoord = function (city) {
     })
 }
 
+// Primary API function, pulls up weather data on the selected city, then displaying all infomration
 let getCityWeather = function (lat,lon) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=1f2462a97ced70684760194121560ac7`;
     
@@ -83,7 +89,7 @@ let getCityWeather = function (lat,lon) {
     })
     
     .then(function (apiUrl) {
-            
+            // Checks if previous search results are already displayed, clearning them if so
         if (weatherClear === true) {
             cityNameEl.textContent = '';
             todayCardEl.children[0].remove();
@@ -96,6 +102,7 @@ let getCityWeather = function (lat,lon) {
 
             cityNameEl.textContent = apiUrl.city.name
 
+            // Creates "Today" weather card
             let createTodayWeatherCard = document.createElement('div');
             let createTodayDate = document.createElement('h4');
             let createTodayIcon = document.createElement('img');
@@ -120,6 +127,7 @@ let getCityWeather = function (lat,lon) {
             createTodayWeatherCard.appendChild(createTodayWind);
             createTodayWeatherCard.appendChild(createTodayHumid);
         
+            // Creates "5-Day Forecast" weather cards
         for (let i = 1; i < 6; i++) {
             let createForecastWeatherCard = document.createElement('div');
             let createForecastDate = document.createElement('h4');
@@ -145,6 +153,8 @@ let getCityWeather = function (lat,lon) {
             createForecastWeatherCard.appendChild(createForecastHumid);
 
           }
+          
+          // Sets classes to created weather cards
     todayCardEl.children[0].setAttribute("class", "today-weather-card");
     weatherCardsEl.children[4].setAttribute("class", "weather-card");
     weatherCardsEl.children[3].setAttribute("class", "weather-card");
@@ -157,6 +167,7 @@ let getCityWeather = function (lat,lon) {
 
 }
 
+// Fahrenheit and Celsius converstion functions
 let fConvert = function (kelvin) {
     let fahr = 1.8*(kelvin-273) + 32;
     return fahr;
@@ -167,4 +178,6 @@ let cConvert = function (kelvin) {
     return cel;
 }
 
+
+// Event listener for search button
 searchButtonEl.addEventListener('click', formSubmitHandler);
