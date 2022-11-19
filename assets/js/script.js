@@ -1,6 +1,7 @@
 let searchButtonEl = document.querySelector('#search');
 let cityInputEl = document.querySelector('#city');
 let weatherCardsEl = document.getElementById('weather-cards');
+let todayCardEl = document.getElementById('today-card');
 let cityHistoryEl = $('#city-history');
 let cityNameEl = document.getElementById('city-name');
 let historyEl = document.querySelector('.history');
@@ -85,6 +86,7 @@ let getCityWeather = function (lat,lon) {
             
         if (weatherClear === true) {
             cityNameEl.textContent = '';
+            todayCardEl.children[0].remove();
             weatherCardsEl.children[4].remove();
             weatherCardsEl.children[3].remove();
             weatherCardsEl.children[2].remove();
@@ -93,33 +95,57 @@ let getCityWeather = function (lat,lon) {
             }
 
             cityNameEl.textContent = apiUrl.city.name
+
+            let createTodayWeatherCard = document.createElement('div');
+            let createTodayDate = document.createElement('h4');
+            let createTodayIcon = document.createElement('img');
+            let createTodayFTemp = document.createElement('p');
+            let createTodayCTemp = document.createElement('p');
+            let createTodayWind = document.createElement('p');
+            let createTodayHumid = document.createElement('p');
+
+            createTodayDate.textContent = `Date: ${today.format('M/D/YYYY')}`
+            createTodayIcon.textContent = `Weather: ${apiUrl.list[0].weather[0].icon}`
+            createTodayFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[0].main.temp))} ℉`
+            createTodayCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[0].main.temp))} ℃`
+            createTodayWind.textContent = `Wind Speed: ${apiUrl.list[0].wind.speed} MPH`
+            createTodayHumid.textContent = `Humidity: ${apiUrl.list[0].main.humidity} %`
+
+
+            todayCardEl.appendChild(createTodayWeatherCard);
+            createTodayWeatherCard.appendChild(createTodayDate);
+            createTodayWeatherCard.appendChild(createTodayIcon);
+            createTodayWeatherCard.appendChild(createTodayFTemp);
+            createTodayWeatherCard.appendChild(createTodayCTemp);
+            createTodayWeatherCard.appendChild(createTodayWind);
+            createTodayWeatherCard.appendChild(createTodayHumid);
         
         for (let i = 1; i < 6; i++) {
-            let createWeatherCard = document.createElement('div');
-            let createDate = document.createElement('h4');
-            let createIcon = document.createElement('img');
-            let createFTemp = document.createElement('p');
-            let createCTemp = document.createElement('p');
-            let createWind = document.createElement('p');
-            let createHumid = document.createElement('p');
+            let createForecastWeatherCard = document.createElement('div');
+            let createForecastDate = document.createElement('h4');
+            let createForecastIcon = document.createElement('img');
+            let createForecastFTemp = document.createElement('p');
+            let createForecastCTemp = document.createElement('p');
+            let createForecastWind = document.createElement('p');
+            let createForecastHumid = document.createElement('p');
 
-            createDate.textContent = `Date: ${today.add(i, 'day').format('M/D/YYYY')}`
-            createIcon.textContent = `Weather: ${apiUrl.list[i*7].weather[0].icon}`
-            createFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*7].main.temp))} ℉`
-            createCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*7].main.temp))} ℃`
-            createWind.textContent = `Wind Speed: ${apiUrl.list[i*7].wind.speed} MPH`
-            createHumid.textContent = `Humidity: ${apiUrl.list[i*7].main.humidity} %`
+            createForecastDate.textContent = `Date: ${today.add(i, 'day').format('M/D/YYYY')}`
+            createForecastIcon.textContent = `Weather: ${apiUrl.list[i*7].weather[0].icon}`
+            createForecastFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*7].main.temp))} ℉`
+            createForecastCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*7].main.temp))} ℃`
+            createForecastWind.textContent = `Wind Speed: ${apiUrl.list[i*7].wind.speed} MPH`
+            createForecastHumid.textContent = `Humidity: ${apiUrl.list[i*7].main.humidity} %`
 
-            weatherCardsEl.appendChild(createWeatherCard);
-            createWeatherCard.appendChild(createDate);
-            createWeatherCard.appendChild(createIcon);
-            createWeatherCard.appendChild(createFTemp);
-            createWeatherCard.appendChild(createCTemp);
-            createWeatherCard.appendChild(createWind);
-            createWeatherCard.appendChild(createHumid);
+            weatherCardsEl.appendChild(createForecastWeatherCard);
+            createForecastWeatherCard.appendChild(createForecastDate);
+            createForecastWeatherCard.appendChild(createForecastIcon);
+            createForecastWeatherCard.appendChild(createForecastFTemp);
+            createForecastWeatherCard.appendChild(createForecastCTemp);
+            createForecastWeatherCard.appendChild(createForecastWind);
+            createForecastWeatherCard.appendChild(createForecastHumid);
 
           }
-    
+    todayCardEl.children[0].setAttribute("class", "today-weather-card");
     weatherCardsEl.children[4].setAttribute("class", "weather-card");
     weatherCardsEl.children[3].setAttribute("class", "weather-card");
     weatherCardsEl.children[2].setAttribute("class", "weather-card");
