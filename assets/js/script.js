@@ -105,7 +105,7 @@ let getCityWeather = function (lat,lon) {
             let createTodayHumid = document.createElement('p');
 
             createTodayDate.textContent = `Date: ${today.format('M/D/YYYY')}`
-            createTodayIcon.setAttribute('src', `http://openweathermap.org/img/wn/${apiUrl.list[0].weather[0].icon}@2x.png`)
+            createTodayIcon.setAttribute('src', `https://openweathermap.org/img/wn/${apiUrl.list[0].weather[0].icon}@2x.png`)
             createTodayFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[0].main.temp))} ℉`
             createTodayCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[0].main.temp))} ℃`
             createTodayWind.textContent = `Wind Speed: ${apiUrl.list[0].wind.speed} MPH`
@@ -130,7 +130,7 @@ let getCityWeather = function (lat,lon) {
             let createForecastHumid = document.createElement('p');
 
             createForecastDate.textContent = `Date: ${today.add(i, 'day').format('M/D/YYYY')}`
-            createForecastIcon.setAttribute('src', `http://openweathermap.org/img/wn/${apiUrl.list[i*7].weather[0].icon}@2x.png`)
+            createForecastIcon.setAttribute('src', `https://openweathermap.org/img/wn/${apiUrl.list[i*7].weather[0].icon}@2x.png`)
             createForecastFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*7].main.temp))} ℉`
             createForecastCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*7].main.temp))} ℃`
             createForecastWind.textContent = `Wind Speed: ${apiUrl.list[i*7].wind.speed} MPH`
