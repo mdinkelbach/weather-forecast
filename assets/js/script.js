@@ -13,7 +13,7 @@ let citySave = localStorage.getItem(`citySaveNumber`)
 if (!citySave) {
   localStorage.setItem(`citySaveNumber`, 0)
 } else {
-  for (let i = 1; i < 11; i++) {
+  for (let i = 1; i < citySave+1; i++) {
     if (localStorage.getItem(`city${i}`) === null) break; {
       cityHistoryEl.append(`<button class="btn" data-name="${localStorage.getItem(`city${i}`)}">${localStorage.getItem(`city${i}`)}</button>`);
     }
@@ -94,7 +94,7 @@ let getCityWeather = function (lat,lon) {
 
             cityNameEl.textContent = apiUrl.city.name
         
-        for (let i = 0; i < 5; i++) {
+        for (let i = 1; i < 6; i++) {
             let createWeatherCard = document.createElement('div');
             let createDate = document.createElement('h4');
             let createIcon = document.createElement('img');
@@ -104,11 +104,11 @@ let getCityWeather = function (lat,lon) {
             let createHumid = document.createElement('p');
 
             createDate.textContent = `Date: ${today.add(i, 'day').format('M/D/YYYY')}`
-            createIcon.textContent = `Weather: ${apiUrl.list[i*8].weather[0].icon}`
-            createFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*8].main.temp))} ℉`
-            createCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*8].main.temp))} ℃`
-            createWind.textContent = `Wind Speed: ${apiUrl.list[i*8].wind.speed} MPH`
-            createHumid.textContent = `Humidity: ${apiUrl.list[i*8].main.humidity} %`
+            createIcon.textContent = `Weather: ${apiUrl.list[i*7].weather[0].icon}`
+            createFTemp.textContent = `F Temp: ${Math.round(fConvert(apiUrl.list[i*7].main.temp))} ℉`
+            createCTemp.textContent = `C Temp: ${Math.round(cConvert(apiUrl.list[i*7].main.temp))} ℃`
+            createWind.textContent = `Wind Speed: ${apiUrl.list[i*7].wind.speed} MPH`
+            createHumid.textContent = `Humidity: ${apiUrl.list[i*7].main.humidity} %`
 
             weatherCardsEl.appendChild(createWeatherCard);
             createWeatherCard.appendChild(createDate);
@@ -119,7 +119,7 @@ let getCityWeather = function (lat,lon) {
             createWeatherCard.appendChild(createHumid);
 
           }
-
+    
     weatherCardsEl.children[4].setAttribute("class", "weather-card");
     weatherCardsEl.children[3].setAttribute("class", "weather-card");
     weatherCardsEl.children[2].setAttribute("class", "weather-card");
