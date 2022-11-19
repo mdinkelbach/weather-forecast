@@ -40,6 +40,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    height: 75vh;
   }
   
   p {
@@ -51,6 +52,15 @@
     flex-wrap: wrap;
     padding: 0;
     list-style: none;
+  }
+
+  .search-results {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .forecast {
+    display: flex;
   }
 
   .weather-card {
@@ -97,6 +107,12 @@
     border-radius: var(--border-radius);
     justify-content: center;
   }
+
+  .city-name, .card-forecast {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   .card {
     margin: 0 0 20px 0;
@@ -108,6 +124,11 @@
     flex-direction: column;
     flex-wrap: wrap;
   }
+
+  .weather-card {
+    padding: 5px;
+    margin: 5px;
+  }
   
   .form-input {
     width: 100%;
@@ -118,15 +139,3 @@
     border-radius: var(--border-radius);
     display: block;
   }
-  
-  .col-12 {
-    flex: 0 0 100%;
-  }
-  
-  
-  @media screen and (min-width: 768px) {  
-    .col-md-4 {
-      flex: 0 0 calc(100% * 4 / 12 - 2%);
-    }
-  }
-  
