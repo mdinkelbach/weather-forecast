@@ -55,7 +55,7 @@ historyEl.addEventListener("click", function(event) {
 );
 
 let getCityCoord = function (city) {
-    let latLon = `https://api.openweathermap.org/geo/1.0/direct?q=$'${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
+    let latLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=1f2462a97ced70684760194121560ac7`;
 
   fetch(latLon)
     .then(function (response) {
